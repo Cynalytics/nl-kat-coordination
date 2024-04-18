@@ -1,0 +1,21 @@
+{
+  "title": "Arguments",
+  "type": "object",
+  "properties": {
+    "SERVER_INPUT": {
+      "title": "Input text to give to the boefje",
+      "type": "string",
+      "description": "A number between 1 and 99 to determine how many pings should be sent out."
+    },
+    "NUMBER": {
+      "title": "Optional number",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9,
+      "description": "A number between 1 and 9."
+    }
+  },
+  "required": [
+    "SERVER_INPUT"
+  ]
+}

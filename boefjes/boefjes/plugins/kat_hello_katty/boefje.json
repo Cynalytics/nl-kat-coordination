@@ -1,0 +1,14 @@
+{
+  "id": "kat_hello_katty",
+  "name": "Hello Katty",
+  "description": "simple boefje",
+  "consumes": [
+    "IPAddressV4",
+    "IPAddressV6"
+  ],
+  "environment_keys": [
+    "SERVER_INPUT"
+  ],
+  "scan_level": 0,
+  "oci_image": "openkat/hello_katty"
+}
