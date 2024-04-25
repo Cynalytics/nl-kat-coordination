@@ -14,6 +14,7 @@ from reports.report_types.systems_report.report import SystemReport
 from reports.report_types.tls_report.report import TLSReport
 from reports.report_types.vulnerability_report.report import VulnerabilityReport
 from reports.report_types.web_system_report.report import WebSystemReport
+from reports.report_types.greetings_report.report import GreetingsReport
 
 REPORTS = [
     FindingsReport,
@@ -28,6 +29,7 @@ REPORTS = [
     NameServerSystemReport,
     RPKIReport,
     IPv6Report,
+    GreetingsReport
 ]
 AGGREGATE_REPORTS = [AggregateOrganisationReport]
 
