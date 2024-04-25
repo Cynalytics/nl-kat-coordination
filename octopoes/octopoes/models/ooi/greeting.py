@@ -15,11 +15,8 @@ class Greeting(OOI):
     address: IPv4Address | IPv6Address
     
     # attributes that make the object identifiable (These get used to make the primary key "Greeting/greeting/time")
-    _natural_key_attrs = ["greeting", "time"]
+    _natural_key_attrs = ["greeting", "time", "address"]
     
-    @classmethod
-    def format_reference_human_readable(cls, reference: Reference) -> str:
-        return "testGreeting"
     
 
 Greeting.model_rebuild()
