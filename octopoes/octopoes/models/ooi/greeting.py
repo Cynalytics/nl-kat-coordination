@@ -12,9 +12,9 @@ class Greeting(OOI):
     
     greeting: str
     time: int
-    address: IPv4Address | IPv6Address
+    address: IPv4Address | IPv6Address # TODO add reference
     
-    # attributes that make the object identifiable (These get used to make the primary key "Greeting/greeting/time")
+    # attributes that make the object identifiable (These get used to make the primary key "Greeting/<greeting>/<time>/<address>")
     _natural_key_attrs = ["greeting", "time", "address"]
     
     

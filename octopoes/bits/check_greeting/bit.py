@@ -5,6 +5,6 @@ BIT = BitDefinition(
     id="check-greeting",
     consumes=Greeting,
     parameters=[],
-    module="bits.check_greeting.port_common",
+    module="bits.check_greeting.check_greeting",
     default_enabled=True, # TODO: maybe change this
 )
