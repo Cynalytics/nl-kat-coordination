@@ -475,9 +475,9 @@
     "recommendation": "Remove the offending hostname from the CSP header."
   },
   "KAT-GREETING": {
-    "description": "A",
-    "risk": "high",
-    "impact": "B",
-    "recommendation": "C"
+    "description": "A greeting object has been found.",
+    "risk": "low",
+    "impact": "This has no impact except for the fact that it uses space in the database.",
+    "recommendation": "Ignore this finding, it is only for learning purposes."
   }
 }
