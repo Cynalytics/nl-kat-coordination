@@ -8,4 +8,3 @@ def run(boefje_meta: dict) -> list[tuple[set, bytes | str]]:
     return [
         (set(), f"{address}|{SERVER_INPUT}")
     ]
-

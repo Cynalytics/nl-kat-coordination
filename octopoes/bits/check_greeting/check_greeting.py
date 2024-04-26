@@ -18,5 +18,6 @@ def run(
     yield Finding(
         finding_type=kat.reference,
         ooi=input_ooi.reference,
-        description=f"We have received a greeting: {greeting_text} because of address: {address}.",
+        description=f"We have received a greeting: {greeting_text} because of address: {str(address)}.",
     )
+    

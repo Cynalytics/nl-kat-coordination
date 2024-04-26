@@ -476,7 +476,7 @@
   },
   "KAT-GREETING": {
     "description": "A greeting object has been found.",
-    "risk": "low",
+    "risk": "high",
     "impact": "This has no impact except for the fact that it uses space in the database.",
     "recommendation": "Ignore this finding, it is only for learning purposes."
   }
