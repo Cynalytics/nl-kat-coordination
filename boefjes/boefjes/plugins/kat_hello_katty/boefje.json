@@ -1,15 +1,15 @@
 {
   "id": "hello-katty",
   "name": "Hello Katty",
-  "description": "simple boefje",
+  "description": "A simple boefje that can say hello",
   "consumes": [
     "IPAddressV4",
     "IPAddressV6"
   ],
   "environment_keys": [
-    "SERVER_INPUT",
-    "NUMBER"
+    "MESSAGE",
+    "POSITIVE"
   ],
   "scan_level": 0,
-  "oci_image": "openkat/hello_katty"
+  "oci_image": "openkat/hello-katty"
 }
