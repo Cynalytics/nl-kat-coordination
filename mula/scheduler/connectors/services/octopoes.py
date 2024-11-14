@@ -99,6 +99,18 @@ class Octopoes(HTTPService):
                 return None
             raise
 
+    def get_object_raw(self, organisation_id: str, reference: str) -> dict | None:
+        """Get an ooi from octopoes"""
+        url = f"{self.host}/{organisation_id}/object"
+
+        try:
+            response = self.get(url, params={"reference": reference, "valid_time": datetime.now(timezone.utc)})
+            return response.json()
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == httpx.codes.NOT_FOUND:
+                return None
+            raise
+
     def is_healthy(self) -> bool:
         healthy = True
         for org in self.orgs:

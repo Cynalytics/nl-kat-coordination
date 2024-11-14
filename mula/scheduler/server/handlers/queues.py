@@ -84,6 +84,19 @@ class QueueAPI:
                 detail="could not pop item from queue, check your filters",
             )
 
+        # Get env settings
+        env_settings: dict | None = None
+        try:
+            if p_item.data.get("boefje", None):
+                env_settings = self.ctx.services.katalogus.get_plugin_settings(
+                    p_item.data["organization"], p_item.data["boefje"]["id"]
+                )
+        except Exception as e:
+            self.logger.info("ERROR")
+            self.logger.error(e)
+        self.logger.info(p_item.model_dump_json())
+        p_item.data["environment"] = env_settings
+
         return models.Task(**p_item.model_dump())
 
     def push(self, queue_id: str, item_in: serializers.Task) -> Any:

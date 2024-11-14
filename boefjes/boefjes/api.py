@@ -12,7 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field
 from uvicorn import Config, Server
 
 from boefjes.clients.bytes_client import BytesAPIClient
-from boefjes.clients.scheduler_client import SchedulerAPIClient, TaskStatus
+from boefjes.clients.scheduler_client import SchedulerAPIClient, Task, TaskStatus
 from boefjes.config import settings
 from boefjes.dependencies.plugins import PluginService, get_plugin_service
 from boefjes.job_handler import get_environment_settings, get_octopoes_api_connector
@@ -137,7 +137,7 @@ def boefje_output(
     return Response(status_code=200)
 
 
-def get_task(task_id, scheduler_client):
+def get_task(task_id, scheduler_client: SchedulerAPIClient):
     try:
         task = scheduler_client.get_task(task_id)
     except HTTPError as e:
@@ -149,7 +149,13 @@ def get_task(task_id, scheduler_client):
     return task
 
 
-def create_boefje_meta(task, plugin: PluginType) -> BoefjeMeta:
+def create_boefje_meta(task: Task, plugin: PluginType) -> BoefjeMeta:
+    if task.type == "boefje":
+        x = get_scheduler_client().get_boefje_meta(task.data, plugin.oci_arguments)
+        logger.info("SOUF")
+        logger.info(x.model_dump_json())
+
+        return x
     organization = task.data.organization
     input_ooi = task.data.input_ooi
     arguments = {"oci_arguments": plugin.oci_arguments}

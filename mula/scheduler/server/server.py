@@ -39,6 +39,7 @@ class Server:
         handlers.MetricsAPI(self.api, self.ctx)
         handlers.HealthAPI(self.api, self.ctx)
         handlers.RootAPI(self.api, self.ctx)
+        handlers.KittenAPI(self.api, self.ctx)
 
     def run(self) -> None:
         uvicorn.run(self.api, host=str(self.ctx.config.api_host), port=self.ctx.config.api_port, log_config=None)

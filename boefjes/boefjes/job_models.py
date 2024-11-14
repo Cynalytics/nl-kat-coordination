@@ -48,7 +48,7 @@ class BoefjeMeta(Job):
     arguments: dict = {}
     organization: str
     runnable_hash: str | None = None
-    environment: dict[str, str] | None = None
+    environment: dict[str, str] = {}
 
 
 class RawDataMeta(BaseModel):

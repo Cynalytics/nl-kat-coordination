@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 import uuid
 from enum import Enum
 from typing import Any
@@ -51,6 +52,11 @@ class QueuePopRequest(BaseModel):
     filters: list[Filter]
 
 
+class BoefjeMetaRequest(BaseModel):
+    task_data: BoefjeMeta
+    oci_arguments: list[str]
+
+
 class SchedulerClientInterface:
     def get_queues(self) -> list[Queue]:
         raise NotImplementedError()
@@ -65,6 +71,9 @@ class SchedulerClientInterface:
         raise NotImplementedError()
 
     def push_item(self, p_item: Task) -> None:
+        raise NotImplementedError()
+
+    def get_boefje_meta(self, task_data: BoefjeMeta, oci_arguments: list[str]) -> BoefjeMeta:
         raise NotImplementedError()
 
 
@@ -122,3 +131,15 @@ class SchedulerAPIClient(SchedulerClientInterface):
         self._verify_response(response)
 
         return Task.model_validate_json(response.content)
+
+    def get_boefje_meta(self, task_data: BoefjeMeta, oci_arguments: list[str]) -> BoefjeMeta:
+        response = self._session.post(
+            "/kitten/boefjemeta",
+            content=BoefjeMetaRequest(task_data=task_data, oci_arguments=oci_arguments).model_dump_json(),
+        )
+        self._verify_response(response)
+
+        logging.info("RAW BOEFJE_META FROM SCHEDULER")
+        logging.info(response.content)
+
+        return BoefjeMeta.model_validate_json(response.content)

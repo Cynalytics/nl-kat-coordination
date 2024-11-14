@@ -1,4 +1,5 @@
 from .health import HealthAPI
+from .kitten import KittenAPI
 from .metrics import MetricsAPI
 from .queues import QueueAPI
 from .root import RootAPI

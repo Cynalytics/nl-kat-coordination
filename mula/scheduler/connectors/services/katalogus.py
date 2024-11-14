@@ -1,4 +1,5 @@
 import threading
+from typing import Any
 
 import httpx
 
@@ -186,6 +187,13 @@ class Katalogus(HTTPService):
             if e.response.status_code == httpx.codes.NOT_FOUND:
                 return []
             raise
+
+    def get_plugin_settings(self, organisation_id: str, plugin_id: str) -> dict[str, Any]:
+        url = f"{self.host}/v1/organisations/{organisation_id}/{plugin_id}/settings"
+        # TODO: SOUF, check why this api never returns an error
+        response = self.get(url)
+        response.raise_for_status()
+        return dict(response.json())
 
     def get_plugins_by_org_id(self, organisation_id: str) -> list[Plugin]:
         def _get_from_cache() -> list[Plugin]:
