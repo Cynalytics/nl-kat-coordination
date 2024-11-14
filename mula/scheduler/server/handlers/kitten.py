@@ -1,11 +1,19 @@
+from collections.abc import Set
 from typing import Any
 
 import fastapi
 import structlog
 from fastapi import status
+from pydantic import BaseModel
 
 from scheduler import context
 from scheduler.models import BoefjeMeta
+
+
+class SaveRawRequest(BaseModel):
+    boefje_meta_id: str
+    raw: str | bytes
+    mime_types: Set[str] = frozenset()
 
 
 class KittenAPI:
@@ -21,6 +29,15 @@ class KittenAPI:
             response_model=BoefjeMeta,
             status_code=status.HTTP_200_OK,
             description="Get the boefje meta",
+        )
+
+        self.api.add_api_route(
+            path="/kitten/raw",
+            endpoint=self.save_raw,
+            methods=["POST"],
+            response_model=str,
+            status_code=status.HTTP_200_OK,
+            description="Save raw data",
         )
 
     def boefje_meta(self, task_data: dict[str, Any], oci_arguments: list[str]) -> BoefjeMeta:
@@ -49,3 +66,7 @@ class KittenAPI:
             )
         except Exception as e:
             raise fastapi.HTTPException(status_code=fastapi.status.HTTP_406_NOT_ACCEPTABLE, detail=str(e))
+
+    def save_raw(self, req: SaveRawRequest):
+        self.logger.info(str([req.boefje_meta_id, req.raw, req.mime_types]))
+        return "0a79d9b1-53e2-479b-ab00-ab5de787240b"

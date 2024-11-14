@@ -127,7 +127,7 @@ def boefje_output(
         for file in boefje_output.files:
             raw = base64.b64decode(file.content)
             # when supported, also save file.name to Bytes
-            bytes_client.save_raw(task_id, raw, mime_types.union(file.tags))
+            scheduler_client.save_raw(task_id, raw, mime_types.union(file.tags))
 
     if boefje_output.status == StatusEnum.COMPLETED:
         scheduler_client.patch_task(task_id, TaskStatus.COMPLETED)

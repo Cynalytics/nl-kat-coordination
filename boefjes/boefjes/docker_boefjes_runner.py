@@ -54,7 +54,7 @@ class DockerBoefjesRunner:
             if task.status == TaskStatus.RUNNING:
                 self.boefje_meta.ended_at = datetime.now(timezone.utc)
                 self.bytes_api_client.save_boefje_meta(self.boefje_meta)  # The task didn't create a boefje_meta object
-                self.bytes_api_client.save_raw(task_id, container_logs, stderr_mime_types.union({"error/boefje"}))
+                self.scheduler_client.save_raw(task_id, container_logs, stderr_mime_types.union({"error/boefje"}))
                 self.scheduler_client.patch_task(task_id, TaskStatus.FAILED)
 
                 # have to raise exception to prevent _start_working function from setting status to completed
@@ -74,7 +74,7 @@ class DockerBoefjesRunner:
                 self.bytes_api_client.save_boefje_meta(self.boefje_meta)
             except HTTPError:
                 logger.error("Failed to save boefje meta to bytes, continuing anyway")
-            self.bytes_api_client.save_raw(task_id, e.stderr, stderr_mime_types)
+            self.scheduler_client.save_raw(task_id, e.stderr, stderr_mime_types)
             self.scheduler_client.patch_task(task_id, TaskStatus.FAILED)
         except ImageNotFound:
             logger.error("Docker image %s not found", self.boefje_resource.oci_image)
