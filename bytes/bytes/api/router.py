@@ -154,7 +154,10 @@ def create_raw(
 ) -> dict[str, UUID]:
     """Parse all the raw files from the request and return the ids. The ids are ordered according to the order from the
     request data, but we assume the `name` field is unique, and hence return a mapping of the file name to the id."""
-
+    logger.error("souf_create_raw")
+    logger.error(boefje_meta_id)
+    logger.error(boefje_output.model_dump_json())
+    logger.info("souf info")
     raw_ids = {}
     mime_types_by_id = {
         raw.id: set(raw.mime_types) for raw in meta_repository.get_raw(RawDataFilter(boefje_meta_id=boefje_meta_id))

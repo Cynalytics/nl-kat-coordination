@@ -1,4 +1,3 @@
-from collections.abc import Set
 from typing import Any
 
 import fastapi
@@ -12,8 +11,8 @@ from scheduler.models import BoefjeMeta
 
 class SaveRawRequest(BaseModel):
     boefje_meta_id: str
-    raw: str | bytes
-    mime_types: Set[str] = frozenset()
+    raw: str
+    mime_types: list[str] = []
 
 
 class KittenAPI:
@@ -67,6 +66,8 @@ class KittenAPI:
         except Exception as e:
             raise fastapi.HTTPException(status_code=fastapi.status.HTTP_406_NOT_ACCEPTABLE, detail=str(e))
 
-    def save_raw(self, req: SaveRawRequest):
+    def save_raw(self, req: SaveRawRequest) -> str:
+        self.logger.info("SOUF: Saving raw with:")
         self.logger.info(str([req.boefje_meta_id, req.raw, req.mime_types]))
-        return "0a79d9b1-53e2-479b-ab00-ab5de787240b"
+
+        return self.ctx.services.bytes.save_raw(req.boefje_meta_id, req.raw, req.mime_types)

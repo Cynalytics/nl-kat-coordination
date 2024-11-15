@@ -2,6 +2,7 @@ import datetime
 import json
 import logging
 import uuid
+from base64 import b64encode
 from collections.abc import Set
 from enum import Enum
 from typing import Any
@@ -149,6 +150,11 @@ class SchedulerAPIClient(SchedulerClientInterface):
         self, boefje_meta_id: str | uuid.UUID, raw: str | bytes, mime_types: Set[str] = frozenset()
     ) -> uuid.UUID:
         response = self._session.post(
-            "/kitten/raw", json={"boefje_meta_id": str(boefje_meta_id), "raw": str(raw), "mime_types": list(mime_types)}
+            "/kitten/raw",
+            json={
+                "boefje_meta_id": str(boefje_meta_id),
+                "raw": b64encode(raw if isinstance(raw, bytes) else raw.encode()).decode(),
+                "mime_types": list(mime_types),
+            },
         )
         return uuid.UUID(str(response.json()))

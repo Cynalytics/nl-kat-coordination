@@ -1,3 +1,5 @@
+import json
+import logging
 import threading
 import typing
 from collections.abc import Callable
@@ -103,3 +105,28 @@ class Bytes(HTTPService):
             if exc.response.status_code == httpx.codes.NOT_FOUND:
                 return None
             raise
+
+    @retry_with_login
+    @exception_handler
+    def save_raw(self, boefje_meta_id: str, raw: str, mime_types: list[str] = []) -> str:
+        logging.info("GOING TO BYTES WITH: ")
+        logging.info(str([boefje_meta_id, mime_types]))
+        response = None
+        try:
+            response = self.session.post(
+                f"{self.host}/bytes/raw",
+                content=json.dumps({"files": [{"name": "raw", "content": raw, "tags": list(mime_types)}]}),
+                params={"boefje_meta_id": str(boefje_meta_id)},
+                headers=self.headers,
+            )
+        except Exception as e:
+            logging.error("SOUF somethingwent wrong: ")
+            logging.error(str(e))
+            raise e
+
+        logging.info("RESPONSE FROM BYTES: ")
+        logging.info(response.content if response else response)
+
+        response.raise_for_status()
+
+        return response.json()["raw"]
