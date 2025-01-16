@@ -2,6 +2,7 @@
 
 <section class="introduction" id="introduction">
     <div>
+        <img src="{% static "img/cynalytics-logo.svg" %}" alt="Cynalytics logo" />
         <div class="horizontal-view toolbar">
             <h1>{{ report_ooi.name }}</h1>
             <div class="dropdown">
@@ -13,29 +14,19 @@
                 <div id="download-report" class="dropdown-list">
                     <ul>
                         <li>
-                            <a href="{{ report_download_pdf_url }}" target="_blank"><span class="icon ti-download" aria-hidden="true"></span>{% translate "Download report" %} (PDF)</a>
+                            <a href="{{ report_download_pdf_url }}" target="_blank"><span class="icon ti-download" aria-hidden="true"></span>{% translate "Download report" %}(PDF)</a>
                         </li>
                         <li>
-                            <a href="{{ report_download_json_url }}" target="_blank"><span class="icon ti-download" aria-hidden="true"></span>{% translate "Download report" %} (JSON)</a>
+                            <a href="{{ report_download_json_url }}" target="_blank"><span class="icon ti-download" aria-hidden="true"></span>{% translate "Download report" %}(JSON)</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
         <div>
-            {% comment %} TODO: edit here {% endcomment %}
             <p>
-                {% translate "This is the OpenKAT report for organization" %} {{ organization.name }}.
-                {% translate "All selected report types for the selected objects are displayed one below the other." %}
-            </p>
-            <p>
-                {% translate "Created with data from:" %} <strong>{{ report_ooi.observed_at|date }}</strong>
-            </p>
-            <p>
-                {% translate "Created on:" %} <strong>{{ report_ooi.date_generated|date }}</strong>
-            </p>
-            <p>
-                {% translate "Created by:" %} <strong>{{ organization_member.user.full_name }}</strong>
+                {% translate "Created on:" %}
+                <strong>{{ report_ooi.date_generated|date }}</strong>
             </p>
         </div>
     </div>

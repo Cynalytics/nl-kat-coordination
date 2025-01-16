@@ -1,5 +1,22 @@
 {% load i18n %}
 
-<section id="open-ports">
-    <p>{{ data }}</p>
+<section id="cynalytics-report">
+    {% for ip_address_findings in data.scanned_ips %}
+        <div class="port-info-container">
+            {% comment %}rocky/assets/css/components/table-state-icons.scss{% endcomment %}
+            {% for port in data.common_ports %}
+                <div class="port-info">
+                    {% if port in ip_address_findings.open_ports %}
+                        <p>
+                            <span class="open-port">open</span> Port: {{ port }}
+                        </p>
+                    {% else %}
+                        <p>
+                            <span class="closed-port">closed</span>Port: {{ port }}
+                        </p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
 </section>
