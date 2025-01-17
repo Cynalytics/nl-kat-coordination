@@ -1,18 +1,34 @@
+{% comment %}rocky/assets/css/components/table-state-icons.scss{% endcomment %}
 {% load i18n %}
 
 <section id="cynalytics-report">
     {% for ip_address_findings in data.scanned_ips %}
         <div class="port-info-container">
-            {% comment %}rocky/assets/css/components/table-state-icons.scss{% endcomment %}
-            {% for port in data.common_ports %}
-                <div class="port-info">
-                    {% if port in ip_address_findings.open_ports %}
-                        <p>
-                            <span class="open-port">open</span> Port: {{ port }}
+            {% for open_port in ip_address_findings.open_ports %}
+                <div>
+                    {% if open_port in data.common_ports %}
+                        <p class="open-common-port">
+                            <span>common</span>
+                            <br />
+                            port: {{ open_port }}
+                        </p>
+                    {% elif open_port in data.dangerous_ports %}
+                        <p class="open-dangerous-port">
+                            <span>dangerous</span>
+                            <br />
+                            port: {{ open_port }}
+                        </p>
+                    {% elif open_port in data.critical_ports %}
+                        <p class="open-critical-port">
+                            <span>critical</span>
+                            <br />
+                            port: {{ open_port }}
                         </p>
                     {% else %}
-                        <p>
-                            <span class="closed-port">closed</span>Port: {{ port }}
+                        <p class="port-info">
+                            <span>open</span>
+                            <br />
+                            port: {{ open_port }}
                         </p>
                     {% endif %}
                 </div>

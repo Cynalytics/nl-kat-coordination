@@ -1,3 +1,4 @@
+import json
 from collections.abc import Iterable
 from datetime import datetime
 from typing import Any
@@ -23,33 +24,11 @@ class CynalyticsReport(Report):
     def collect_data(self, input_oois: Iterable[str], valid_time: datetime) -> dict[str, Any]:
         open_ports_result = self.open_ports_report(input_oois, valid_time)
 
+        # SOURCE: https://support.huawei.com/enterprise/en/doc/EDOC1100297670
         result: dict[str, list] = {
-            "common_ports": [
-                20,
-                21,
-                22,
-                23,
-                25,
-                53,
-                67,
-                68,
-                69,
-                80,
-                110,
-                137,
-                138,
-                139,
-                143,
-                161,
-                162,
-                389,
-                427,
-                443,
-                445,
-                993,
-                995,
-                3389,
-            ],
+            "common_ports": [67, 68, 80, 162, 427, 443, 993, 995],
+            "critical_ports": [20, 21, 23, 69, 110, 137, 138, 139, 143, 161, 389, 445, 3389],
+            "dangerous_ports": [22, 25, 53],
             "scanned_ips": [],
         }
         for input_ooi, ips in open_ports_result.items():
@@ -59,7 +38,7 @@ class CynalyticsReport(Report):
                     ip_scan["open_ports"].append(port)
                 result["scanned_ips"].append(ip_scan)
 
-        logger.info("Cynalytics report collected data", result=result)
+        logger.info("Cynalytics report collected data", result=json.dumps(result))
         return result
 
     def open_ports_report(self, input_oois: Iterable[str], valid_time: datetime):
