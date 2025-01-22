@@ -36,8 +36,15 @@ class CynalyticsReport(Report):
                 ip_scan = {"input_ooi": input_ooi, "ip": ip, "open_ports": []}
                 for port in data["services"]:
                     ip_scan["open_ports"].append(port)
-                result["scanned_ips"].append(ip_scan)
 
+                result["scanned_ips"].append(ip_scan)
+        result["chart"] = [
+            {"label": "apple", "y": 10},
+            {"label": "orange", "y": 15},
+            {"label": "banana", "y": 25},
+            {"label": "mango", "y": 30},
+            {"label": "grape", "y": 28},
+        ]
         logger.info("Cynalytics report collected data", result=json.dumps(result))
         return result
 
