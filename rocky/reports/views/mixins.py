@@ -40,6 +40,7 @@ def collect_reports(observed_at: datetime, octopoes_connector: OctopoesAPIConnec
 
         try:
             results = report_class(octopoes_connector).collect_data(oois, observed_at)
+            logger.info("Report collected", report_type=report_class.id, results=results)
         except ObjectNotFoundException:
             error_reports.append(report_class.id)
             continue

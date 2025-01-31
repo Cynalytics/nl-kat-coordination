@@ -25,18 +25,38 @@ class CynalyticsReport(Report):
         open_ports_result = self.open_ports_report(input_oois, valid_time)
 
         # SOURCE: https://support.huawei.com/enterprise/en/doc/EDOC1100297670
-        result: dict[str, list] = {
-            "common_ports": [67, 68, 80, 162, 427, 443, 993, 995],
-            "critical_ports": [20, 21, 23, 69, 110, 137, 138, 139, 143, 161, 389, 445, 3389],
-            "dangerous_ports": [22, 25, 53],
-            "scanned_ips": [],
-        }
+        COMMON_PORTS = [67, 68, 80, 162, 427, 443, 993, 995]
+        DANGEROUS_PORTS = [22, 25, 53]
+        CRITICAL_PORTS = [20, 21, 23, 69, 110, 137, 138, 139, 143, 161, 389, 445, 3389]
+
+        result: dict[str, dict[str, Any]] = {}
         for input_ooi, ips in open_ports_result.items():
             for ip, data in ips.items():
-                ip_scan = {"input_ooi": input_ooi, "ip": ip, "open_ports": []}
+                result[input_ooi] = {
+                    "open_ports": [],
+                    "ip": ip,
+                    "chart": [
+                        {"label": "common", "count": 0},
+                        {"label": "dangerous", "count": 0},
+                        {"label": "critical", "count": 0},
+                        {"label": "unknown", "count": 0},
+                    ],
+                }
+                open_ports: list[tuple[str, int]] = []
                 for port in data["services"]:
-                    ip_scan["open_ports"].append(port)
-                result["scanned_ips"].append(ip_scan)
+                    if port in COMMON_PORTS:
+                        open_ports.append(("common", port))
+                        result[input_ooi]["chart"][0]["count"] += 1
+                    elif port in DANGEROUS_PORTS:
+                        open_ports.append(("dangerous", port))
+                        result[input_ooi]["chart"][1]["count"] += 1
+                    elif port in CRITICAL_PORTS:
+                        open_ports.append(("critical", port))
+                        result[input_ooi]["chart"][2]["count"] += 1
+                    else:
+                        open_ports.append(("unknown", port))
+                        result[input_ooi]["chart"][3]["count"] += 1
+                result[input_ooi]["open_ports"] = sorted(open_ports, key=lambda d: d[1])
 
         logger.info("Cynalytics report collected data", result=json.dumps(result))
         return result
