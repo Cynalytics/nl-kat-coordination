@@ -1,8 +1,11 @@
+import base64
 import json
 from collections.abc import Iterable
 from datetime import datetime
+from io import BytesIO
 from typing import Any
 
+import matplotlib.pyplot as plt
 import structlog
 from django.utils.translation import gettext_lazy as _
 
@@ -58,6 +61,27 @@ class CynalyticsReport(Report):
                         result[input_ooi]["chart"][3]["count"] += 1
                 result[input_ooi]["open_ports"] = sorted(open_ports, key=lambda d: d[1])
 
+                #! NEW GRAPH
+                labels = "Frogs", "Hogs", "Dogs", "Logs"
+                sizes = [15, 30, 45, 10]
+
+                fig, ax = plt.subplots()
+                ax.pie(sizes, labels=labels, colors=["red", "blue", "green", "yellow"])
+
+                buffer = BytesIO()
+                plt.savefig(buffer, format="png")
+                buffer.seek(0)
+                image_png = buffer.getvalue()
+                buffer.close()
+
+                graphic = base64.b64encode(image_png).decode("utf-8")
+                result[input_ooi]["chart_image"] = graphic
+
+                # // with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmpfile:
+                # //     plt.savefig(tmpfile.name, dpi=500)
+                # //     result[input_ooi]["chart_image"] = tmpfile.name
+
+                #!
         logger.info("Cynalytics report collected data", result=json.dumps(result))
         return result
 
