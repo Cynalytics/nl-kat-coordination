@@ -16,61 +16,75 @@
             </canvas>
         </div>
         <div class="port-info-container">
-            {% for open_port in data.open_ports %}
-                <div>
-                    {% if open_port.0 == "common" %}
+            <div>
+                {% for port in data.open_ports.common %}
+                    <div>
                         <p class="open-common-port">
                             <span>common</span>
                             <br />
-                            port: {{ open_port.1 }}
+                            port: {{ port }}
                         </p>
-                    {% elif open_port.0 == "dangerous" %}
+                    </div>
+                {% endfor %}
+                {% for port in data.open_ports.dangerous %}
+                    <div>
                         <p class="open-dangerous-port">
                             <span>dangerous</span>
                             <br />
-                            port: {{ open_port.1 }}
+                            port: {{ port }}
                         </p>
-                    {% elif open_port.0 == "critical" %}
+                    </div>
+                {% endfor %}
+                {% for port in data.open_ports.critical %}
+                    <div>
                         <p class="open-critical-port">
                             <span>critical</span>
                             <br />
-                            port: {{ open_port.1 }}
+                            port: {{ port }}
                         </p>
-                    {% else %}
+                    </div>
+                {% endfor %}
+                {% for port in data.open_ports.unknown %}
+                    <div>
                         <p class="port-info">
                             <span>open</span>
                             <br />
-                            port: {{ open_port.1 }}
+                            port: {{ port }}
                         </p>
-                    {% endif %}
-                </div>
-            {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
             <script type="module" nonce="{{ request.csp_nonce }}">
                 (async function () {
-                    const data = {{data.chart|safe}};
+                    const data = {{data.open_ports|safe}};
+
+                    const labels = Object.keys(data).filter((key) => data[key].length > 0);
+                    const count_per_label = labels.map((key) => data[key].length);
 
                     new Chart(document.getElementById("open-ports-graph"), {
-                        type: "doughnut",
-                        data: {
-                            labels: data.map((row) => row.label),
-                            datasets: [
-                                {
-                                    label: "Open ports",
-                                    data: data.map((row) => row.count),
-                                    backgroundColor: [
-                                    'rgb(36, 173, 36)',
-                                    'rgb(255, 166, 0)',
-                                    'rgb(221, 81, 81)',
-                                    'rgb(136, 127, 112)'
-                                    ],
-                                    weight: 5,
-                                },
+                      type: "doughnut",
+                      data: {
+                        labels: labels,
+                        datasets: [
+                          {
+                            label: "Open ports",
+                            data: count_per_label,
+                            backgroundColor: [
+                              "rgb(36, 173, 36)",
+                              "rgb(255, 166, 0)",
+                              "rgb(221, 81, 81)",
+                              "rgb(136, 127, 112)",
                             ],
-                        },
-                        options: {"rotation": 120, },
+                            weight: 5,
+                          },
+                        ],
+                      },
+                      options: { rotation: 120 },
                     });
-                })();
+                  }
+                  )();
             </script>
         </div>
     </div>
 </section>
+{{ data.open_ports }}
