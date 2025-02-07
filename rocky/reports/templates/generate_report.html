@@ -11,22 +11,25 @@
 
         <article>
             {% include "partials/report_header.html" %}
-            {% include "summary/report_asset_overview.html" %}
+            {% include "partials/report_introduction.html" %}
 
-            {% for report_type, report in report_data.items %}
-                {% for ooi,data in report.items %}
-                    bbb
-                    {% if data.data %}
-                        <section id="{{ report_type }}-{{ ooi }}">
-                            <div>
-                                <h2>{{ data.report_name }}</h2>
-                                {% include data.template with data=data.data show_introduction="yes" %}
+            <div class="chapter-numbers report-content">
+                {% include "summary/report_asset_overview.html" %}
 
-                            </div>
-                        </section>
-                    {% endif %}
+                {% for report_type, report in report_data.items %}
+                    {% for ooi,data in report.items %}
+                        {% if data.data %}
+                            <section id="{{ report_type }}-{{ ooi }}">
+                                <div>
+                                    <h2>{{ data.report_name }}</h2>
+                                    {% include data.template with data=data.data show_introduction="yes" %}
+
+                                </div>
+                            </section>
+                        {% endif %}
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
+            </div>
         </article>
     </main>
 {% endblock content %}
