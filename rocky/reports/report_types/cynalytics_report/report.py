@@ -62,8 +62,18 @@ class CynalyticsReport(Report):
                 result[input_ooi]["open_ports"] = sorted(open_ports, key=lambda d: d[1])
 
                 #! NEW GRAPH
-                labels = "Frogs", "Hogs", "Dogs", "Logs"
-                sizes = [15, 30, 45, 10]
+                labels = [
+                    result[input_ooi]["chart"][0]["label"],
+                    result[input_ooi]["chart"][1]["label"],
+                    result[input_ooi]["chart"][2]["label"],
+                    result[input_ooi]["chart"][3]["label"],
+                ]
+                sizes = [
+                    result[input_ooi]["chart"][0]["count"],
+                    result[input_ooi]["chart"][1]["count"],
+                    result[input_ooi]["chart"][2]["count"],
+                    result[input_ooi]["chart"][3]["count"],
+                ]
 
                 fig, ax = plt.subplots()
                 ax.pie(sizes, labels=labels, colors=["red", "blue", "green", "yellow"])
@@ -76,10 +86,6 @@ class CynalyticsReport(Report):
 
                 graphic = base64.b64encode(image_png).decode("utf-8")
                 result[input_ooi]["chart_image"] = graphic
-
-                # // with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmpfile:
-                # //     plt.savefig(tmpfile.name, dpi=500)
-                # //     result[input_ooi]["chart_image"] = tmpfile.name
 
                 #!
         logger.info("Cynalytics report collected data", result=json.dumps(result))
