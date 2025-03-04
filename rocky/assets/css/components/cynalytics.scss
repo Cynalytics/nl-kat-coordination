@@ -52,18 +52,14 @@ span {
 }
 
 .port-info-container {
-  display: grid;
-  grid-gap: 10px;
-  width: 40%;
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: space-around;
 }
 
 .report-container {
   background-color: rgb(255 50 100 / 5%);
   display: flex;
   flex-wrap: wrap;
-}
-
-.graph-container {
-  background-color: rgb(50 100 255 / 5%);
-  width: 40%;
 }

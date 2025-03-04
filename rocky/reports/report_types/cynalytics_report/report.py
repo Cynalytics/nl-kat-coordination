@@ -19,7 +19,7 @@ logger = structlog.get_logger(__name__)
 class CynalyticsReport(Report):
     id = "cynalytics-report"
     name = _("Cynalytics report")
-    description = _("Find open ports of IP addresses")
+    description = _("A Cynalytics report.")
     plugins = {"required": {"nmap"}, "optional": set()}
     input_ooi_types = {IPAddressV4, IPAddressV6}
     template_path = "cynalytics_report/report.html"

@@ -4,87 +4,49 @@
 <script nonce="{{ request.csp_nonce }}"
         src=" https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js "></script>
 <section id="cynalytics-report">
+    <h2>Open ports</h2>
     <div>
         <img src="data:image/png;base64,{{ data.chart_image|safe }}"
              alt="png not loaded"
              nonce="{{ request.csp_nonce }}" />
     </div>
-    <div class="report-container">
-        <div class="graph-container">
-            <canvas id="open-ports-graph" width="100" height="100">
-                Graph could not be displayed
-            </canvas>
-        </div>
-        <div class="port-info-container">
+    <div class="port-info-container">
+        {% for port in data.open_ports.common %}
             <div>
-                {% for port in data.open_ports.common %}
-                    <div>
-                        <p class="open-common-port">
-                            <span>common</span>
-                            <br />
-                            port: {{ port }}
-                        </p>
-                    </div>
-                {% endfor %}
-                {% for port in data.open_ports.dangerous %}
-                    <div>
-                        <p class="open-dangerous-port">
-                            <span>dangerous</span>
-                            <br />
-                            port: {{ port }}
-                        </p>
-                    </div>
-                {% endfor %}
-                {% for port in data.open_ports.critical %}
-                    <div>
-                        <p class="open-critical-port">
-                            <span>critical</span>
-                            <br />
-                            port: {{ port }}
-                        </p>
-                    </div>
-                {% endfor %}
-                {% for port in data.open_ports.unknown %}
-                    <div>
-                        <p class="port-info">
-                            <span>open</span>
-                            <br />
-                            port: {{ port }}
-                        </p>
-                    </div>
-                {% endfor %}
+                <p class="open-common-port">
+                    <span>common</span>
+                    <br />
+                    port: {{ port }}
+                </p>
             </div>
-            <script type="module" nonce="{{ request.csp_nonce }}">
-                (async function () {
-                    const data = {{data.open_ports|safe}};
-
-                    const labels = Object.keys(data).filter((key) => data[key].length > 0);
-                    const count_per_label = labels.map((key) => data[key].length);
-
-                    new Chart(document.getElementById("open-ports-graph"), {
-                      type: "doughnut",
-                      data: {
-                        labels: labels,
-                        datasets: [
-                          {
-                            label: "Open ports",
-                            data: count_per_label,
-                            backgroundColor: [
-                              "rgb(36, 173, 36)",
-                              "rgb(255, 166, 0)",
-                              "rgb(221, 81, 81)",
-                              "rgb(136, 127, 112)",
-                            ],
-                            weight: 5,
-                          },
-                        ],
-                      },
-                      options: { rotation: 120 },
-                    });
-                  }
-                  )();
-            </script>
-        </div>
+        {% endfor %}
+        {% for port in data.open_ports.dangerous %}
+            <div>
+                <p class="open-dangerous-port">
+                    <span>dangerous</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
+        {% for port in data.open_ports.critical %}
+            <div>
+                <p class="open-critical-port">
+                    <span>critical</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
+        {% for port in data.open_ports.unknown %}
+            <div>
+                <p class="port-info">
+                    <span>open</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
     </div>
 </section>
 {{ data.open_ports }}
