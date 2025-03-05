@@ -44,7 +44,7 @@ from octopoes.models.transaction import TransactionRecord
 from octopoes.models.tree import ReferenceTree
 from octopoes.models.types import OOIType
 from rocky.health import ServiceHealth
-from rocky.scheduler import PaginatedTasksResponse, ReportTask, Task, TaskStatus
+from rocky.scheduler import PaginatedTasksResponse, ReportTask, ScheduleResponse, Task, TaskStatus
 
 LANG_LIST = [code for code, _ in settings.LANGUAGES]
 
@@ -327,6 +327,7 @@ def task() -> Task:
             "hash": "19ed51514b37d42f79c5e95469956b05",
             "scheduler_id": "boefje-test",
             "schedule_id": None,
+            "organisation": "test",
             "type": "boefje",
             "priority": 1,
             "data": {
@@ -1843,6 +1844,7 @@ def reports_task_list():
                 id=UUID("7f9d5b00-dbab-45f3-93a6-dd44cc20c359"),
                 scheduler_id="report-_rieven",
                 schedule_id="86032b20-f7ae-4a48-9093-87ec5a56e939",
+                organisation="test",
                 priority=1738747928,
                 status=TaskStatus.FAILED,
                 type="report",
@@ -1857,6 +1859,7 @@ def reports_task_list():
                 id=UUID("9e23611d-36c2-4972-82f0-077bcb1a8941"),
                 scheduler_id="report-_rieven",
                 schedule_id="bd821e6e-6680-4215-8557-e049deeb0175",
+                organisation="test 2",
                 priority=1738684879,
                 status=TaskStatus.COMPLETED,
                 type="report",
@@ -1869,3 +1872,58 @@ def reports_task_list():
             ),
         ],
     )
+
+
+@pytest.fixture
+def scheduled_report_recipe():
+    return ReportRecipe(
+        object_type="ReportRecipe",
+        scan_profile=EmptyScanProfile(
+            scan_profile_type="empty",
+            reference=Reference("ReportRecipe|3fed7d00-6261-4ad1-b08f-9b91434aa41e"),
+            level=ScanLevel.L0,
+            user_id=None,
+        ),
+        user_id=None,
+        primary_key="ReportRecipe|3fed7d00-6261-4ad1-b08f-9b91434aa41e",
+        recipe_id=UUID("3fed7d00-6261-4ad1-b08f-9b91434aa41e"),
+        report_name_format="${report_type} for ${oois_count} objects",
+        input_recipe={"input_oois": ["Hostname|internet|mispo.es"]},
+        report_type="concatenated-report",
+        asset_report_types=[
+            "dns-report",
+            "findings-report",
+            "ipv6-report",
+            "mail-report",
+            "name-server-report",
+            "open-ports-report",
+            "rpki-report",
+            "safe-connections-report",
+            "systems-report",
+            "vulnerability-report",
+            "web-system-report",
+        ],
+        cron_expression=None,
+    )
+
+
+@pytest.fixture
+def scheduled_reports_list():
+    return [
+        ScheduleResponse(
+            id=UUID("7706ebc1-b24b-44fb-a7b3-9a44d80b2644"),
+            scheduler_id="report",
+            organisation="test",
+            hash="bb5708d2f82e11cc5cda3aef54190f2e",
+            data={
+                "type": "report",
+                "organisation_id": "_rieven",
+                "report_recipe_id": "3fed7d00-6261-4ad1-b08f-9b91434aa41e",
+            },
+            enabled=True,
+            schedule=None,
+            deadline_at=None,
+            created_at=datetime(2025, 2, 12, 16, 1, 19, 951925),
+            modified_at=datetime(2025, 2, 12, 16, 1, 19, 951925),
+        )
+    ]
