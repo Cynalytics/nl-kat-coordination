@@ -2,6 +2,23 @@
 {% load static %}
 
 <section id="cynalytics-report">
-    <p>Hello there</p>
+    {% if data.ipv4_reachable %}
+        <p>
+            <span class="check positive" />Great! Your website is reachable for visitors using IPv4
+        </p>
+    {% else %}
+        <p>
+            <span class="check negative" />Too bad! Your website is not reachable for visitors using IPv4
+        </p>
+    {% endif %}
+    {% if data.ipv6_reachable %}
+        <p>
+            <span class="check positive" />Great! Your website is reachable for visitors using IPv6
+        </p>
+    {% else %}
+        <p>
+            <span class="check negative" />Too bad! Your website is not reachable for visitors using IPv6
+        </p>
+    {% endif %}
     {{ data }}
 </section>

@@ -1,6 +1,25 @@
-span {
-  display: inline-block;
-  font-family: var(--icon-font-family);
+.check {
+  &::before {
+    font-family: var(--icon-font-family);
+  }
+}
+
+.check.positive {
+  text-shadow: 1px 1px 1px rgb(172 255 47 / 20%);
+
+  &::before {
+    content: "\ea67";
+    color: var(--color-alert-positive);
+  }
+}
+
+.check.negative {
+  text-shadow: 1px 1px 1px rgb(255 0 0 / 20%);
+
+  &::before {
+    content: "\ea05";
+    color: var(--color-alert-negative);
+  }
 }
 
 %abstract-port-info {
