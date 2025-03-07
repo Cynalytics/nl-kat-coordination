@@ -3,28 +3,26 @@
 
 <section id="cynalytics-report">
     {% if data.ipv4_reachable %}
-        <p>
-            <span class="check positive" />Great! Your website is reachable for visitors using IPv4
-        </p>
+        {% include "cynalytics_report/check.html" with text="Great! Your website is reachable for visitors using IPv4" positive=True %}
+
     {% else %}
-        <p>
-            <span class="check negative" />Too bad! Your website is not reachable for visitors using IPv4
-        </p>
+        {% include "cynalytics_report/check.html" with text="Too bad! Your website is not reachable for visitors using IPv4" positive=False %}
+
     {% endif %}
     {% if data.ipv6_reachable %}
-        <p>
-            <span class="check positive" />Great! Your website is reachable for visitors using IPv6
-        </p>
+        {% include "cynalytics_report/check.html" with text="Great! Your website is reachable for visitors using IPv6" positive=True %}
+
     {% else %}
-        <p>
-            <span class="check negative" />Too bad! Your website is not reachable for visitors using IPv6
-        </p>
+        {% include "cynalytics_report/check.html" with text="Too bad! Your website is not reachable for visitors using IPv6" positive=False %}
+
     {% endif %}
-    {% if data.dns_sec == 'good' %}
-        <p>
-            <span class="check positive" />Great! Your DNSSEC is configured correctly
-        </p>
-    {% elif data.dns_sec == 'bad' %}
+    {% if data.dns_sec == "good" %}
+        {% include "cynalytics_report/check.html" with text="Great! Your DNSSEC is configured correctly" positive=True %}
+
+    {% elif data.dns_sec == "bad" %}
+        {% include "cynalytics_report/check.html" with text="Too bad! Your DNSSEC is not configured correctly" positive=False %}
+
     {% endif %}
+    <hr />
     {{ data }}
 </section>
