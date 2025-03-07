@@ -10,6 +10,7 @@ from octopoes.models import OOI, Reference
 from octopoes.models.ooi.dns.zone import Hostname
 from octopoes.models.ooi.network import IPAddressV4, IPAddressV6
 from octopoes.models.types import OOIType
+from rocky.scheduler_client import SchedulerClient
 
 REPORTS_DIR = Path(__file__).parent
 
@@ -43,6 +44,7 @@ class BaseReport:
 
     def __init__(self, octopoes_api_connector: OctopoesAPIConnector):
         self.octopoes_api_connector = octopoes_api_connector
+        self.scheduler_client = SchedulerClient(octopoes_api_connector.client)
 
     def collect_data(self, input_oois: Iterable[Reference], valid_time: datetime) -> dict[Reference, dict[str, Any]]:
         raise NotImplementedError

@@ -1,13 +1,13 @@
 from datetime import datetime
-from typing import Any
+from typing import Any, Literal
 
 import structlog
 from django.utils.translation import gettext_lazy as _
 
 from octopoes.models import Reference
-from octopoes.models.ooi.dns.zone import ResolvedHostname
+from octopoes.models.ooi.dns.zone import Hostname, ResolvedHostname
 from octopoes.models.ooi.network import IPAddress
-from octopoes.models.ooi.web import Hostname, Website
+from octopoes.models.ooi.web import Website
 from octopoes.models.types import OOIType
 from reports.report_types.definitions import Report
 
@@ -40,9 +40,24 @@ class CynalyticsReport(Report):
                 ).store
             )
 
+        findings = self.octopoes_api_connector.list_findings(hostname_ref, valid_time).items
+
+        tasks = self.scheduler_client.completed_tasks_by_ooi(hostname_ref)
+
+        # dns_sec can be "unknown"
+        dns_sec: Literal["unknown", "bad", "good"] = "unknown"
+        if any([x.finding_type == "KATFindingType|KAT-NO-DNSSEC" for x in findings]):
+            dns_sec = "bad"
+        elif "dns-sec" in tasks:
+            # if dns-sec has been ran and no finding is found, it is good
+            dns_sec = "good"
+
         data: dict[str, Any] = {
             "ipv4_reachable": False,
             "ipv6_reachable": False,
+            "fulfilled_tasks": tasks,
+            "dns_sec": dns_sec,
+            "findings": [x.model_dump() for x in findings],
             "debug": related_websites | related_ips | related_resolved_hostnames,
         }
 

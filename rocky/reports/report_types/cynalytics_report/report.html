@@ -20,5 +20,11 @@
             <span class="check negative" />Too bad! Your website is not reachable for visitors using IPv6
         </p>
     {% endif %}
+    {% if data.dns_sec == 'good' %}
+        <p>
+            <span class="check positive" />Great! Your DNSSEC is configured correctly
+        </p>
+    {% elif data.dns_sec == 'bad' %}
+    {% endif %}
     {{ data }}
 </section>
