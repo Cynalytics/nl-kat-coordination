@@ -40,7 +40,7 @@ class CynalyticsReport(Report):
                 ).store
             )
 
-        findings = self.octopoes_api_connector.list_findings(hostname_ref, valid_time).items
+        findings = self.octopoes_api_connector.list_findings([], valid_time, search_string=hostname_ref).items
 
         tasks = self.scheduler_client.completed_tasks_by_ooi(hostname_ref)
 
