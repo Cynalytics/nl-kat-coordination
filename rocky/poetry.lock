@@ -824,14 +824,14 @@ test = ["bump-my-version (>=0.12)", "tox (>=4.11)"]
 
 [[package]]
 name = "django-phonenumber-field"
-version = "8.0.0"
+version = "7.3.0"
 description = "An international phone number field for django models."
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "django_phonenumber_field-8.0.0-py3-none-any.whl", hash = "sha256:196c917b70c01a98e327f482eb8a4a4a55a29891db551f99078585397370b3ba"},
-    {file = "django_phonenumber_field-8.0.0.tar.gz", hash = "sha256:8a560fe1b01b94c9de8cde22bc373b695f023cc6df4baba00264cb079da9f631"},
+    {file = "django-phonenumber-field-7.3.0.tar.gz", hash = "sha256:f9cdb3de085f99c249328293a3b93d4e5fa440c0c8e3b99eb0d0f54748629797"},
+    {file = "django_phonenumber_field-7.3.0-py3-none-any.whl", hash = "sha256:bc6eaa49d1f9d870944f5280258db511e3a1ba5e2fbbed255488dceacae45d06"},
 ]
 
 [package.dependencies]
@@ -900,26 +900,26 @@ Django = ">=2.2"
 
 [[package]]
 name = "django-two-factor-auth"
-version = "1.17.0"
+version = "1.16.0"
 description = "Complete Two-Factor Authentication for Django"
 optional = false
-python-versions = ">=3.8"
+python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "django_two_factor_auth-1.17.0-py3-none-any.whl", hash = "sha256:622e78b0d6cf12eeafa239665d99c1221c399228f2f902fe478aea7759995e0e"},
-    {file = "django_two_factor_auth-1.17.0.tar.gz", hash = "sha256:a2dcc3efedd0ce4b4c14d389766c9fd8e13cabdff5e4e1b645adeb650c550cf7"},
+    {file = "django-two-factor-auth-1.16.0.tar.gz", hash = "sha256:662782a4ab9f59a06afe3be04540dc8dd04e63b06f52520386a546fcad8d2d41"},
+    {file = "django_two_factor_auth-1.16.0-py3-none-any.whl", hash = "sha256:bf57713232b15dc85abbed45244f372bd01de5c145159d3bee3e468af7e2b6d1"},
 ]
 
 [package.dependencies]
-Django = ">=4.2"
+Django = ">=3.2"
 django-formtools = "*"
-django_otp = ">=0.8.0"
-django-phonenumber-field = "<9"
+django-otp = ">=0.8.0"
+django-phonenumber-field = "<8"
 qrcode = ">=4.0.0,<7.99"
 
 [package.extras]
 call = ["twilio (>=6.0)"]
-linting = ["isort (<=5.99)", "ruff"]
+linting = ["flake8 (<=6.99)", "isort (<=5.99)"]
 phonenumbers = ["phonenumbers (>=7.0.9,<8.99)"]
 phonenumberslite = ["phonenumberslite (>=7.0.9,<8.99)"]
 sms = ["twilio (>=6.0)"]
@@ -3933,4 +3933,4 @@ test = ["pytest"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.10"
-content-hash = "36f71c1312e7de79467ab2d42b40457d4f6eeb211b90012e0ecaa3d759e457ea"
+content-hash = "4b3e32f69d394705258730d35093dfa3377b881bca9de7ae1cdb2379d1479ea9"
