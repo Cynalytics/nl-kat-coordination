@@ -1,0 +1,84 @@
+.check {
+  &::before {
+    font-family: var(--icon-font-family);
+  }
+}
+
+.check.positive {
+  text-shadow: 1px 1px 1px rgb(172 255 47 / 20%);
+
+  &::before {
+    content: "\ea67";
+    color: var(--color-alert-positive);
+  }
+}
+
+.check.negative {
+  text-shadow: 1px 1px 1px rgb(255 0 0 / 20%);
+
+  &::before {
+    content: "\ea05";
+    color: var(--color-alert-negative);
+  }
+}
+
+%abstract-port-info {
+  border: 1px inset black;
+  border-radius: 5% 10%;
+  padding: 15px;
+
+  span::before {
+    content: "\ea91";
+    color: var(--color-alert-informative);
+  }
+}
+
+.port-info {
+  @extend %abstract-port-info;
+}
+
+.open-common-port {
+  @extend %abstract-port-info;
+
+  span::before {
+    content: "\ea67";
+    color: var(--color-alert-positive);
+  }
+
+  background-color: rgb(0 128 0 / 5%);
+}
+
+.open-dangerous-port {
+  @extend %abstract-port-info;
+
+  span::before {
+    content: "\ea6a";
+    color: var(--color-alert-warning);
+  }
+
+  background-color: rgb(255 166 0 / 5%);
+}
+
+.open-critical-port {
+  @extend %abstract-port-info;
+
+  span::before {
+    content: "\ea05";
+    color: var(--color-alert-negative);
+  }
+
+  background-color: rgb(255 0 0 / 5%);
+}
+
+.port-info-container {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.report-container {
+  background-color: rgb(255 50 100 / 5%);
+  display: flex;
+  flex-wrap: wrap;
+}

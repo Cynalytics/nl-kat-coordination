@@ -1,6 +1,8 @@
 from octopoes.models import OOI, Reference
 from reports.report_types.aggregate_organisation_report.report import AggregateOrganisationReport
 from reports.report_types.concatenated_report.report import ConcatenatedReport
+from reports.report_types.cynalytics_report.report import CynalyticsReport
+from reports.report_types.cynalytics_report_old.report import CynalyticsOldReport
 from reports.report_types.definitions import AggregateReport, BaseReport, Report
 from reports.report_types.dns_report.report import DNSReport
 from reports.report_types.findings_report.report import FindingsReport
@@ -29,6 +31,8 @@ REPORTS = [
     NameServerSystemReport,
     RPKIReport,
     IPv6Report,
+    CynalyticsOldReport,
+    CynalyticsReport,
 ]
 AGGREGATE_REPORTS = [AggregateOrganisationReport]
 

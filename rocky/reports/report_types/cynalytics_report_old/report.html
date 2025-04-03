@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load static %}
+
+<script nonce="{{ request.csp_nonce }}"
+        src=" https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js "></script>
+<section id="cynalytics-old-report">
+    <h2>Open ports</h2>
+    <div>
+        <img src="data:image/png;base64,{{ data.chart_image|safe }}"
+             alt="png not loaded"
+             nonce="{{ request.csp_nonce }}" />
+    </div>
+    <div class="port-info-container">
+        {% for port in data.open_ports.common %}
+            <div>
+                <p class="open-common-port">
+                    <span>common</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
+        {% for port in data.open_ports.dangerous %}
+            <div>
+                <p class="open-dangerous-port">
+                    <span>dangerous</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
+        {% for port in data.open_ports.critical %}
+            <div>
+                <p class="open-critical-port">
+                    <span>critical</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
+        {% for port in data.open_ports.unknown %}
+            <div>
+                <p class="port-info">
+                    <span>open</span>
+                    <br />
+                    port: {{ port }}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{{ data.open_ports }}

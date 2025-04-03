@@ -1,0 +1,9 @@
+{% if positive is True %}
+    <p>
+        <span class="check positive" /> {{ text }}
+    </p>
+{% else %}
+    <p>
+        <span class="check negative" /> {{ text }}
+    </p>
+{% endif %}

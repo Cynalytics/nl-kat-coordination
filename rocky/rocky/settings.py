@@ -159,6 +159,7 @@ INSTALLED_APPS = [
     "compressor",
     "reports",
     "knox",
+    "matplotlib",
     # "drf_standardized_errors",
 ]
 
@@ -398,13 +399,13 @@ if CSP_HEADER:
     INSTALLED_APPS += ["csp"]
 
 CSP_DEFAULT_SRC = ["'none'"]
-CSP_IMG_SRC = ["'self'"]
+CSP_IMG_SRC = ["'self'", "data:"]
 CSP_FONT_SRC = ["'self'"]
 CSP_STYLE_SRC = ["'self'"]
 CSP_FRAME_ANCESTORS = ["'none'"]
 CSP_BASE_URI = ["'none'"]
 CSP_FORM_ACTION = ["'self'"]
-CSP_INCLUDE_NONCE_IN = ["script-src"]
+CSP_INCLUDE_NONCE_IN = ["script-src", "img-src"]
 CSP_CONNECT_SRC = ["'self'"]
 
 # Turn on the browsable API by default if DEBUG is True, but disable by default in production
