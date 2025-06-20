@@ -122,6 +122,20 @@ class Settings(BaseSettings):
 
     outgoing_request_timeout: int = Field(30, description="Timeout for outgoing HTTP requests")
 
+    boefje_reachable_networks: list[str] | None = Field(
+        None,
+        description="List of networks the boefje-runner can reach",
+        examples=[["Network|internet", "Network|dentist"], []],
+    )
+
+    boefje_task_capabilities: list[str] | None = Field(
+        None,
+        description="List of technical requirements the boefje-runner is capable of running",
+        examples=[[], ["ipv4", "wifi-pineapple"]],
+    )
+
+    runner_type: Literal["boefje", "normalizer"] | None = Field(None, examples=["boefje", "normalizer"])
+
     model_config = SettingsConfigDict(env_prefix="BOEFJES_")
 
     @classmethod
