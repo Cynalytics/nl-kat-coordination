@@ -122,14 +122,14 @@ class Settings(BaseSettings):
 
     outgoing_request_timeout: int = Field(30, description="Timeout for outgoing HTTP requests")
 
-    boefje_reachable_networks: list[str] | None = Field(
-        None,
+    reachable_networks: list[str] = Field(
+        ["Network|internet"],
         description="List of networks the boefje-runner can reach",
         examples=[["Network|internet", "Network|dentist"], []],
     )
 
-    boefje_task_capabilities: list[str] | None = Field(
-        None,
+    task_capabilities: list[str] = Field(
+        ["ipv4", "ipv6"],  # ? should ipv6 be automatically supported?
         description="List of technical requirements the boefje-runner is capable of running",
         examples=[[], ["ipv4", "wifi-pineapple"]],
     )
