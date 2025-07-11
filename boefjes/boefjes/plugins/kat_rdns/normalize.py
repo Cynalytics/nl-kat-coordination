@@ -29,7 +29,8 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
                 if isinstance(rr, PTR):
                     value = rrset.to_text()
                     hostname = Hostname(
-                        name=rr.to_text().rstrip("."), network=Network(name=input_ooi["network"]["name"]).reference
+                        name=rr.to_text().rstrip("."),
+                        network=Network(network=input_ooi["network"]["network"]).reference,
                     )
                     yield hostname
                     ptr_record = DNSPTRRecord(

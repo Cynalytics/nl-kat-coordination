@@ -49,7 +49,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     raw_splitted = raw.decode().split("\n\n\n")
 
     # Relevant network object is received from the normalizer_meta.
-    network = Network(name=input_ooi["network"]["name"])
+    network = Network(network=input_ooi["network"]["network"])
 
     netblock_ref = None
     if "NetBlock" in input_ooi["object_type"]:

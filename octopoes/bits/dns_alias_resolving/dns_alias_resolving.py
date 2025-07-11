@@ -20,7 +20,7 @@ def run(
             yield ResolvedHostname(
                 hostname=Hostname(
                     name=cname_record.hostname.tokenized.name,
-                    network=Network(name=cname_record.hostname.tokenized.network.name).reference,
+                    network=Network(network=cname_record.hostname.tokenized.network.network).reference,
                 ).reference,
                 address=resolved_hostname.address,
             )

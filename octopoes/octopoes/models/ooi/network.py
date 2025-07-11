@@ -22,14 +22,12 @@ class Network(OOI):
 
     object_type: Literal["Network"] = "Network"
 
-    name: str
-
-    _natural_key_attrs = ["name"]
+    _natural_key_attrs = ["network"]
     _traversable = False
 
     @classmethod
     def format_reference_human_readable(cls, reference: Reference) -> str:
-        return reference.tokenized.name
+        return reference.tokenized.network
 
 
 class IPAddress(OOI):
@@ -44,7 +42,7 @@ class IPAddress(OOI):
     @classmethod
     def format_reference_human_readable(cls, reference: Reference) -> str:
         tokens = reference.tokenized
-        return f"{tokens.address} @ {tokens.network.name}"
+        return f"{tokens.address} @ {tokens.network.network}"
 
 
 class IPAddressV4(IPAddress):

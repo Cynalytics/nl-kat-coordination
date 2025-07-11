@@ -124,7 +124,7 @@ class OnboardingSetupScanOOIAddView(
         self.report_type = self.request.GET.get("report_type", "")
 
     def get_or_create_url_object(self, url: str) -> OOI:
-        network = Network(name="internet")
+        network = Network(network="internet")
         url = URL(network=network.reference, raw=url, user_id=self.request.user.id)
         observed_at = datetime.now(timezone.utc)
         url_ooi, _ = get_or_create_ooi(self.octopoes_api_connector, self.bytes_client, url, observed_at)

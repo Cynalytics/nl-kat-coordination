@@ -151,7 +151,7 @@ class URL(OOI):
 
     @classmethod
     def format_reference_human_readable(cls, reference: Reference) -> str:
-        return f"{reference.tokenized.raw} @{reference.tokenized.network.name}"
+        return f"{reference.tokenized.raw} @{reference.tokenized.network.network}"
 
 
 class HTTPHeaderURL(OOI):

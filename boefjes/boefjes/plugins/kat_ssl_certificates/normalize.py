@@ -50,7 +50,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     if certificates:
         tokenized = Reference.from_str(pk).tokenized
         addr = ipaddress.ip_address(tokenized.ip_service.ip_port.address.address)
-        network = Network(name=tokenized.ip_service.ip_port.address.network.name)
+        network = Network(network=tokenized.ip_service.ip_port.address.network.network)
         if isinstance(addr, ipaddress.IPv4Address):
             ip_address = IPAddressV4(address=addr, network=network.reference)
         else:
@@ -66,7 +66,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
             ip_port=ip_port.reference, service=Service(name=tokenized.ip_service.service.name).reference
         )
         hostname = Hostname(
-            network=Network(name=tokenized.hostname.network.name).reference, name=tokenized.hostname.name
+            network=Network(network=tokenized.hostname.network.network).reference, name=tokenized.hostname.name
         )
         website = Website(
             ip_service=ip_service.reference, hostname=hostname.reference, certificate=certificates[0].reference
@@ -145,7 +145,7 @@ def read_certificates(
         # todo: alt names
         certificates.append(certificate)
 
-        network_reference = Network(name="internet").reference
+        network_reference = Network(network="internet").reference
         certificate_reference = certificate.reference
 
         for name in subject_alternative_names:

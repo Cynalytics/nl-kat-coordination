@@ -10,7 +10,7 @@ from octopoes.models.ooi.network import Network
 
 
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
-    internet = Network(name="internet")
+    internet = Network(network="internet")
 
     # parse raw data into dns.message.Message
     section = raw.decode()

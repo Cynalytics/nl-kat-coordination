@@ -42,7 +42,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
         results = json.loads(raw.decode() + "]") if raw else []
 
     # Relevant network object is received from the normalizer_meta.
-    network = Network(name=input_ooi["network"]["name"])
+    network = Network(network=input_ooi["network"]["network"])
 
     netblock_ref = Reference.from_str(input_ooi["primary_key"])
 

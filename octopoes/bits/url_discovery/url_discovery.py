@@ -17,12 +17,12 @@ def run(
         if ip_port.port == 443:
             for hostname in hostnames:
                 yield URL(
-                    network=Network(name=hostname.tokenized.network.name).reference,
-                    raw=f"https://{hostname.tokenized.name}/",
+                    network=Network(network=hostname.tokenized.network.network).reference,
+                    raw=f"https://{hostname.tokenized.network}/",
                 )
         if ip_port.port == 80:
             for hostname in hostnames:
                 yield URL(
-                    network=Network(name=hostname.tokenized.network.name).reference,
+                    network=Network(network=hostname.tokenized.network.network).reference,
                     raw=f"http://{hostname.tokenized.name}/",
                 )

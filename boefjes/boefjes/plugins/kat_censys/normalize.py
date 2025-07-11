@@ -16,7 +16,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     results = json.loads(raw)
     ip_ooi_reference = Reference.from_str(input_ooi["primary_key"])
 
-    network_reference = Network(name=ip_ooi_reference.tokenized.network.name).reference
+    network_reference = Network(network=ip_ooi_reference.tokenized.network.network).reference
     ip = results["ip"]
 
     if "dns" in results and "names" in results["dns"]:

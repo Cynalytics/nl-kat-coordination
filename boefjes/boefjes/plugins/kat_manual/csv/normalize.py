@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 
 
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
-    reference_cache = {"Network": {"internet": Network(name="internet")}}
+    reference_cache = {"Network": {"internet": Network(network="internet")}}
 
     yield from process_csv(raw, reference_cache)
 

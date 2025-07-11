@@ -33,7 +33,7 @@ from octopoes.models.ooi.network import IPAddressV4, IPAddressV6, Network
 
 
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
-    internet = Network(name="internet")
+    internet = Network(network="internet")
 
     if raw.decode() == "NXDOMAIN":
         yield NXDOMAIN(hostname=Reference.from_str(input_ooi["primary_key"]))

@@ -122,7 +122,7 @@ class Settings(BaseSettings):
 
     outgoing_request_timeout: int = Field(30, description="Timeout for outgoing HTTP requests")
 
-    reachable_networks: list[str] = Field(
+    reachable_networks: list[str | None] = Field(
         ["Network|internet"],
         description="List of networks the boefje-runner can reach",
         examples=[["Network|internet", "Network|dentist"], []],

@@ -39,7 +39,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     tokenized_weburl = Reference.from_str(pk).tokenized["web_url"]
     tokenized_hostname = Reference.from_str(pk).tokenized["website"]["hostname"]
 
-    network = Network(name=tokenized_hostname["network"]["name"])
+    network = Network(network=tokenized_hostname["network"]["network"])
     hostname = Hostname(network=network.reference, name=tokenized_hostname["name"])
     web_url = HostnameHTTPURL(
         network=network.reference,

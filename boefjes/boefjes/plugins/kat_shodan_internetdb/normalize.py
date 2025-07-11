@@ -36,7 +36,9 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[OOI]:
                     yield SoftwareInstance(software=software.reference, ooi=input_ooi_reference)
         else:
             for hostname in result["hostnames"]:
-                hostname_ooi = Hostname(name=hostname, network=Network(name=input_ooi["network"]["name"]).reference)
+                hostname_ooi = Hostname(
+                    name=hostname, network=Network(network=input_ooi["network"]["network"]).reference
+                )
                 yield hostname_ooi
                 if hostname.endswith(DNS_PTR_STR):
                     yield DNSPTRRecord(hostname=hostname_ooi.reference, value=hostname, address=input_ooi_reference)

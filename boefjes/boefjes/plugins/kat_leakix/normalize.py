@@ -39,7 +39,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     results = json.loads(raw)
 
     pk_ooi_reference = Reference.from_str(input_ooi["primary_key"])
-    network_reference = Network(name="internet").reference
+    network_reference = Network(network="internet").reference
 
     for event in results:
         # TODO: add event["time"] to results. This is the time the event was first seen. Date of last scan is not

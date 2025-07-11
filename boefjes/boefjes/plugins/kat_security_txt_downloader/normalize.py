@@ -20,10 +20,10 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
             continue
         url_original = URL(
             raw=f'{input_ooi["ip_service"]["service"]["name"]}://{input_ooi["hostname"]["name"]}/{path}',
-            network=Network(name=input_ooi["hostname"]["network"]["name"]).reference,
+            network=Network(network=input_ooi["hostname"]["network"]["network"]).reference,
         )
         yield url_original
-        url = URL(raw=details["url"], network=Network(name=input_ooi["hostname"]["network"]["name"]).reference)
+        url = URL(raw=details["url"], network=Network(network=input_ooi["hostname"]["network"]["network"]).reference)
         yield url
         url_parts = urlparse(details["url"])
         # we need to check if the website of the response is the same as the input website
@@ -39,17 +39,19 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
         # otherwise we need to create a new website complete with hostname and ip
         else:
             hostname = Hostname(
-                name=url_parts.netloc, network=Network(name=input_ooi["hostname"]["network"]["name"]).reference
+                name=url_parts.netloc, network=Network(network=input_ooi["hostname"]["network"]["network"]).reference
             )
             yield hostname
             addr = ipaddress.ip_address(details["ip"])
             if addr.version == 6:
                 ip_address = IPAddressV6(
-                    address=details["ip"], network=Network(name=input_ooi["hostname"]["network"]["name"]).reference
+                    address=details["ip"],
+                    network=Network(network=input_ooi["hostname"]["network"]["network"]).reference,
                 )
             else:
                 ip_address = IPAddressV4(
-                    address=details["ip"], network=Network(name=input_ooi["hostname"]["network"]["name"]).reference
+                    address=details["ip"],
+                    network=Network(network=input_ooi["hostname"]["network"]["network"]).reference,
                 )
             yield ip_address
             # check scheme for service and ipport

@@ -13,7 +13,7 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     soup = BeautifulSoup(raw, "html.parser")
     images = {img["src"] for img in soup.find_all("img", src=True)}
 
-    network_name = input_ooi["website"]["hostname"]["network"]["name"]
+    network_name = input_ooi["website"]["hostname"]["network"]["network"]
     host = input_ooi["website"]["hostname"]["name"]
     service = input_ooi["website"]["ip_service"]["service"]["name"]
 
@@ -23,4 +23,4 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
         if not validators.url(img):
             img = urljoin(url, img)
 
-        yield URL(network=Network(name=network_name).reference, raw=img)
+        yield URL(network=Network(network=network_name).reference, raw=img)

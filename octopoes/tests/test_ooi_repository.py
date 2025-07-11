@@ -57,8 +57,8 @@ class OOIRepositoryTest(TestCase):
 
         serial = cast(DNSZone, self.repository.deserialize(raw_node))
         self.assertEqual("DNSZone", serial.object_type)
-        self.assertEqual(internet.name, serial.hostname.tokenized.network.name)
-        self.assertEqual("test.nl", serial.hostname.tokenized.name)
+        self.assertEqual(internet.name, serial.hostname.tokenized.network.network)
+        self.assertEqual("test.nl", serial.hostname.tokenized.network)
 
     @patch("octopoes.models.types.ALL_TYPES", ALL_OOI_TYPES)
     def test_construct_neighbour_query(self):

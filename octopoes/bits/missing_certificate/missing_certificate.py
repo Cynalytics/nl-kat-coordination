@@ -13,4 +13,9 @@ def run(input_ooi: Website, additional_oois: list, config: dict[str, Any]) -> It
     if input_ooi.certificate is None:
         ft = KATFindingType(id="KAT-NO-CERTIFICATE")
         yield ft
-        yield Finding(ooi=input_ooi.reference, finding_type=ft.reference, description="No SSL certificate found")
+        yield Finding(
+            ooi=input_ooi.reference,
+            finding_type=ft.reference,
+            description="No SSL certificate found",
+            network=input_ooi.network,
+        )

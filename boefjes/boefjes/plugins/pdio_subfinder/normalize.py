@@ -8,7 +8,7 @@ from octopoes.models.ooi.network import Network
 
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     hostname_ooi_reference = Reference.from_str(input_ooi["primary_key"])
-    network_reference = Network(name=hostname_ooi_reference.tokenized.network.name).reference
+    network_reference = Network(network=hostname_ooi_reference.tokenized.network.network).reference
 
     for hostname in raw.decode().splitlines():
         hostname_ooi = Hostname(name=hostname, network=network_reference)

@@ -12,7 +12,7 @@ from octopoes.models.ooi.software import Software, SoftwareInstance
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     results = json.loads(raw)
     pk_ooi = Reference.from_str(input_ooi["primary_key"])
-    network = Network(name="internet").reference
+    network = Network(network="internet").reference
 
     # Structure based on https://docs.binaryedge.io/modules/<accepted_modules_name>/
     accepted_modules = ("ssh", "rsync", "ftp", "telnet", "smb")

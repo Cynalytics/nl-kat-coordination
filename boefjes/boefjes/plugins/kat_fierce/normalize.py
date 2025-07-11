@@ -12,7 +12,7 @@ from octopoes.models.ooi.network import IPAddressV4, IPAddressV6, Network
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     results = json.loads(raw)
 
-    internet = Network(name="internet")
+    internet = Network(network="internet")
     yield internet
 
     for _, subdomain in results["subdomains"].items():

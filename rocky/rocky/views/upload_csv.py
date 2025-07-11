@@ -50,7 +50,7 @@ class UploadCSV(OrganizationPermissionRequiredMixin, OrganizationView, FormView)
     template_name = "upload_csv.html"
     form_class = UploadOOICSVForm
     permission_required = "tools.can_scan_organization"
-    reference_cache: dict[str, Any] = {"Network": {"internet": Network(name="internet")}}
+    reference_cache: dict[str, Any] = {"Network": {"internet": Network(network="internet")}}
     ooi_types: ClassVar[dict[str, Any]] = {
         "Hostname": {"type": Hostname},
         "URL": {"type": URL},

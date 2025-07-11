@@ -74,7 +74,7 @@ def parse_ip_qualifiers(
     if mask is None:
         if qualifier == "ip4":
             ip_address = IPAddressV4(
-                address=ip, network=Network(name=input_ooi.hostname.tokenized.network.name).reference
+                address=ip, network=Network(network=input_ooi.hostname.tokenized.network.network).reference
             )
             yield ip_address
             yield DNSSPFMechanismIP(
@@ -82,7 +82,7 @@ def parse_ip_qualifiers(
             )
         if qualifier == "ip6":
             ip_address = IPAddressV6(
-                address=ip, network=Network(name=input_ooi.hostname.tokenized.network.name).reference
+                address=ip, network=Network(network=input_ooi.hostname.tokenized.network.network).reference
             )
             yield ip_address
             yield DNSSPFMechanismIP(
@@ -108,7 +108,9 @@ def parse_a_mx_qualifiers(
         # remove prefix-length for now
         # TODO: fix prefix lengths
         domain = domain.split("/")[0]
-        hostname = Hostname(name=domain, network=Network(name=input_ooi.hostname.tokenized.network.name).reference)
+        hostname = Hostname(
+            name=domain, network=Network(network=input_ooi.hostname.tokenized.network.network).reference
+        )
         yield hostname
         yield DNSSPFMechanismHostname(
             spf_record=spf_record.reference,
@@ -137,7 +139,9 @@ def parse_ptr_exists_include_mechanism(
         # currently, the model only supports hostnames and not domains
         if domain.startswith("_"):
             return
-        hostname = Hostname(name=domain, network=Network(name=input_ooi.hostname.tokenized.network.name).reference)
+        hostname = Hostname(
+            name=domain, network=Network(network=input_ooi.hostname.tokenized.network.network).reference
+        )
         yield hostname
         yield DNSSPFMechanismHostname(
             spf_record=spf_record.reference,
@@ -152,7 +156,7 @@ def parse_redirect_mechanism(mechanism: str, input_ooi: DNSTXTRecord, spf_record
     # currently, the model only supports hostnames and not domains
     if domain.startswith("_"):
         return
-    hostname = Hostname(name=domain, network=Network(name=input_ooi.hostname.tokenized.network.name).reference)
+    hostname = Hostname(name=domain, network=Network(network=input_ooi.hostname.tokenized.network.network).reference)
     yield hostname
     yield DNSSPFMechanismHostname(
         spf_record=spf_record.reference, hostname=hostname.reference, mechanism=mechanism_type

@@ -124,7 +124,7 @@ def organization_post_save(sender, instance, created, *args, **kwargs):
 
     try:
         valid_time = datetime.datetime.now(datetime.timezone.utc)
-        octopoes_client.save_declaration(Declaration(ooi=Network(name="internet"), valid_time=valid_time))
+        octopoes_client.save_declaration(Declaration(ooi=Network(network="internet"), valid_time=valid_time))
     except Exception:
         logger.exception("Could not seed internet for organization %s", sender)
 

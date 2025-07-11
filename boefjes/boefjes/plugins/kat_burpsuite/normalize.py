@@ -29,7 +29,7 @@ def find_network(data: dict) -> dict:
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     parser = minidom.parseString(raw.decode("UTF-8"))
 
-    network = Network(name=find_network(input_ooi).get("name", "internet"))
+    network = Network(network=find_network(input_ooi).get("network", "internet"))
 
     tcp_protocol = Protocol.TCP
 

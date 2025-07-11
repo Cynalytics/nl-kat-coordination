@@ -46,7 +46,7 @@ def get_indemnification_level(path_dict):
 def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
     """Yields hostnames, IPv4/6 addresses or netblocks."""
     results = json.loads(raw)
-    network = Network(name=input_ooi["name"])
+    network = Network(network=input_ooi["network"])
     addresses_count, blocks_count, hostnames_count = 0, 0, 0
 
     for address_item in follow_path_in_dict(path=IP_ADDRESS_LIST_PATH, path_dict=results):
