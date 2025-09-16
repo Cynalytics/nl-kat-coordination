@@ -197,6 +197,7 @@ INSTALLED_APPS = [
     "compressor",
     "reports",
     "knox",
+    "boefjes_repo",
     # "drf_standardized_errors",
 ]
 

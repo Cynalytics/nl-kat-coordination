@@ -82,6 +82,12 @@
                                        {% if index_url in request.path|urlencode %}aria-current="page"{% endif %}>{% translate "Settings" %}</a>
                                 </li>
                             {% endif %}
+                            {% if request.user.is_superuser or perms.tools.view_organization %}
+                                <li>
+                                    {% url "organization_boefjes_repo" organization.code as index_url %}
+                                    <a href="{{ index_url }}">{% translate "Boefjes repo" %}</a>
+                                </li>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </ul>
