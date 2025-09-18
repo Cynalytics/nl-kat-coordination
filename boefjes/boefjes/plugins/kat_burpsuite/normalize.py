@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from defusedxml import minidom
 
-from boefjes.job_models import NormalizerOutput
+from boefjes.normalizer_models import NormalizerOutput
 from octopoes.models.ooi.dns.zone import Hostname
 from octopoes.models.ooi.findings import CAPECFindingType, CVEFindingType, CWEFindingType, Finding
 from octopoes.models.ooi.network import IPAddressV4, IPAddressV6, IPPort, Network, Protocol
@@ -57,11 +57,13 @@ def run(input_ooi: dict, raw: bytes) -> Iterable[NormalizerOutput]:
 
         address = ip_address(ip)
         if isinstance(address, IPv4Address):
-            ip = IPAddressV4(address=address, network=network.reference)
+            ip_ooi = IPAddressV4(address=address, network=network.reference)
         elif isinstance(address, IPv6Address):
-            ip = IPAddressV6(address=address, network=network.reference)
+            ip_ooi = IPAddressV6(address=address, network=network.reference)
+        else:
+            raise ValueError("IP address is neither IPv4 nor IPv6")
 
-        ip_port = IPPort(address=ip.reference, protocol=tcp_protocol, port=port)
+        ip_port = IPPort(address=ip_ooi.reference, protocol=tcp_protocol, port=port)
         yield ip_port
 
         service = Service(name=url.scheme)
