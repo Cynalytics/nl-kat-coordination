@@ -10,7 +10,7 @@ import structlog
 from httpx import Client, HTTPError, HTTPTransport, Response
 from jsonschema import ValidationError
 from jsonschema.validators import validate
-from pydantic import BaseModel, TypeAdapter
+from pydantic import TypeAdapter
 
 from boefjes.config import settings
 from boefjes.dependencies.plugins import PluginService
@@ -21,17 +21,6 @@ from octopoes.models import Reference
 from octopoes.models.exception import ObjectNotFoundException
 
 logger = structlog.get_logger(__name__)
-
-
-class Filter(BaseModel):
-    column: str
-    field: str
-    operator: str
-    value: Any
-
-
-class QueuePopRequest(BaseModel):
-    filters: list[Filter]
 
 
 class SchedulerAPIClient(SchedulerClientInterface):
@@ -67,15 +56,21 @@ class SchedulerAPIClient(SchedulerClientInterface):
                 {"column": "data", "field": "boefje__id", "operator": "in", "value": self.plugins}
             )
 
-        filters["filters"] += [
-            {"column": "data", "field": "network", "operator": "<@", "value": json.dumps(settings.reachable_networks)},
-            {
-                "column": "data",
-                "field": "requirements",
-                "operator": "<@",
-                "value": json.dumps(settings.task_capabilities),
-            },
-        ]
+        if settings.runner_type == "boefje":
+            filters["filters"] += [
+                {
+                    "column": "data",
+                    "field": "network",
+                    "operator": "<@",
+                    "value": json.dumps(settings.reachable_networks),
+                },
+                {
+                    "column": "data",
+                    "field": "requirements",
+                    "operator": "<@",
+                    "value": json.dumps(settings.task_capabilities),
+                },
+            ]
 
         if queue.value == "normalizer":
             response = self._session.post(
