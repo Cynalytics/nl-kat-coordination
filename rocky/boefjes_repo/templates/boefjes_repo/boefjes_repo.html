@@ -7,5 +7,40 @@
     {% include "header.html" %}
 
     <main id="main-content" tabindex="-1" class="katalogus">
+        <section class="boefjes-repo-section">
+            <header>
+                <h1>{% translate "Boefjes Repository" %}</h1>
+                <p>{% translate "Let's see what we have got!" %}</p>
+            </header>
+            <table class="boefjes-table">
+                <thead>
+                    <tr>
+                        <th>{% translate "ID" %}</th>
+                        <th>{% translate "Name" %}</th>
+                        <th>{% translate "Description" %}</th>
+                        <th>{% translate "OCI Image" %}</th>
+                        <th>{% translate "Download" %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for object in boefjes %}
+                        <tr>
+                            <td>{{ object.boefje_id }}</td>
+                            <td>{{ object.name }}</td>
+                            <td>{{ object.description }}</td>
+                            <td>{{ object.oci_image }}</td>
+                            <td>
+                                <a href="{% url 'boefje_download' organization.code object.boefje_id %}"
+                                   class="button">{% translate "Download" %}</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5">{% translate "No objects yet." %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </main>
 {% endblock content %}
