@@ -44,6 +44,8 @@ SCHEDULER_API = env.url("SCHEDULER_API").geturl()
 
 KATALOGUS_API = env.url("KATALOGUS_API").geturl()
 
+BOEFJES_REPO_API = env.url("BOEFJES_REPO_API").geturl()
+
 BYTES_API = env.url("BYTES_API").geturl()
 BYTES_USERNAME = env("BYTES_USERNAME")
 BYTES_PASSWORD = env("BYTES_PASSWORD")

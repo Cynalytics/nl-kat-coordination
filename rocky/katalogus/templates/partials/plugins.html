@@ -66,5 +66,9 @@
             {% include "partials/plugin_tile.html" with plugin=plugin %}
 
         {% endfor %}
+        {% for online_boefje in online_boefjes %}
+            {% include "partials/online_plugin_tile.html" with online_plugin=online_boefje %}
+
+        {% endfor %}
     </div>
 {% endif %}

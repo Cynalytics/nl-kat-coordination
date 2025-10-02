@@ -1,6 +1,6 @@
 import json
 from io import BytesIO
-from typing import Annotated
+from typing import Annotated, Any
 from urllib.parse import quote
 
 import httpx
@@ -12,7 +12,7 @@ from django.utils.translation import gettext as _
 from httpx import HTTPError, HTTPStatusError, Response, codes
 from jsonschema.exceptions import SchemaError
 from jsonschema.validators import Draft202012Validator
-from pydantic import AfterValidator, BaseModel, Field, field_serializer, field_validator
+from pydantic import AfterValidator, BaseModel, Field, TypeAdapter, field_serializer, field_validator
 from tools.enums import SCAN_LEVEL
 from tools.models import Organization, OrganizationMember
 
@@ -102,6 +102,22 @@ class Normalizer(Plugin):
     @field_serializer("produces")
     def serialize_produces(self, produces: set[type[OOI]]) -> set[str]:
         return {ooi_class.get_ooi_type() for ooi_class in produces}
+
+
+class OnlineBoefje(BaseModel):
+    id: str
+    name: str
+    version: str
+    created: str
+    description: str
+    enabled: bool
+    static: bool
+    type: str
+    scan_level: int
+    consumes: list[str]
+    produces: list[str]
+    boefje_schema: dict[str, Any]
+    oci_image: str
 
 
 class KATalogusError(Exception):
@@ -310,6 +326,22 @@ class KATalogusClient:
         )
 
 
+class BoefjesRepoClient:
+    def __init__(self, base_uri: str):
+        self.session = httpx.Client(
+            base_url=base_uri,
+            event_hooks={"response": [verify_response]},
+            timeout=settings.ROCKY_OUTGOING_REQUEST_TIMEOUT,
+        )
+
+    def get_boefjes(self) -> list[OnlineBoefje]:
+        response = self.session.get("/json-objects")
+
+        logger.info("Fetched online boefjes", response=response.content)
+
+        return TypeAdapter(list[OnlineBoefje]).validate_json(response.content)
+
+
 class KATalogus:
     """
     An adapter between the full KATalogusClient and the organization-specific context of most views. This restricts
@@ -478,3 +510,7 @@ def get_katalogus_client() -> KATalogusClient:
 
 def get_katalogus(member: OrganizationMember) -> KATalogus:
     return KATalogus(get_katalogus_client(), member)
+
+
+def get_boefjes_repo_client() -> BoefjesRepoClient:
+    return BoefjesRepoClient(settings.BOEFJES_REPO_API)

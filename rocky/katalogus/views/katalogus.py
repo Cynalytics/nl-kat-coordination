@@ -30,6 +30,7 @@ class BaseKATalogusView(OrganizationView, ListView, FormView):
     def setup(self, request, *args, **kwargs):
         super().setup(request, *args, **kwargs)
         self.katalogus_client = self.get_katalogus()
+        self.boefjes_repo_client = self.get_boefjes_repo()
 
     def get_initial(self) -> dict[str, Any]:
         initial = super().get_initial()
@@ -103,6 +104,11 @@ class BoefjeListView(BaseKATalogusView):
     def get_queryset(self):
         queryset = self.sort_alphabetic_ascending(self.katalogus_client.get_boefjes())
         return self.filter_katalogus(queryset)
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["online_boefjes"] = self.boefjes_repo_client.get_boefjes()
+        return context
 
 
 class NormalizerListView(BaseKATalogusView):

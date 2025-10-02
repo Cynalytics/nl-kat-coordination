@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 
 class BoefjesRepoClient:
     def get_all_boefjes(self):
-        response = httpx.get("http://busy_ardinghelli:8030/json-objects")
+        response = httpx.get("http://boefjes-repo:8000/json-objects")
 
         response.raise_for_status()
         return response.json()
